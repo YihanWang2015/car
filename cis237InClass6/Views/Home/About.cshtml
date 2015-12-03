@@ -1,7 +1,25 @@
 ﻿@{
+    
+    
+    //This is an assignment statement that sets a variable on the ViewBag
+    //The Title will get used in the layout file.
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
+
+<!-- I added the ViewBag.SomethingElse in HomeController under Controller-->
+<h4>@ViewBag.SomethingElse.</h4>
+
+@{
+    for (int i = 0; i < 5; i++)
+    {
+       // @ViewBag.SomethingElse;
+       <text>@ViewBag.SomethingElse</text>
+    }   
+}
+
+
+
 
 <p>Use this area to provide additional information.</p>
