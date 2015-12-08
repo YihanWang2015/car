@@ -50,6 +50,6 @@ O:\cis237\cis237InClass6\cis237InClass6\bin\Microsoft.Owin.Security.OAuth.xml
 O:\cis237\cis237InClass6\cis237InClass6\bin\Microsoft.Owin.Security.Google.xml
 O:\cis237\cis237InClass6\cis237InClass6\bin\Microsoft.Owin.Security.Twitter.xml
 O:\cis237\cis237InClass6\cis237InClass6\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-O:\cis237\cis237InClass6\cis237InClass6\obj\Debug\cis237InClass6.csprojResolveAssemblyReference.cache
 O:\cis237\cis237InClass6\cis237InClass6\obj\Debug\cis237InClass6.dll
 O:\cis237\cis237InClass6\cis237InClass6\obj\Debug\cis237InClass6.pdb
+O:\cis237\cis237InClass6\cis237InClass6\obj\Debug\cis237InClass6.csprojResolveAssemblyReference.cache
