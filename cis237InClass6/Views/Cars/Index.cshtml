@@ -63,7 +63,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr id="@item.id" class="dataRow">
         <td>
             @Html.DisplayFor(modelItem => item.year)
         </td>
@@ -91,3 +91,10 @@
 }
 
 </table>
+
+
+@section scripts {
+
+    @Scripts.Render("~/Scripts/cars.js")
+
+    }
