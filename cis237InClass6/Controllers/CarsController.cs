@@ -19,7 +19,65 @@ namespace cis237InClass6.Controllers
         // GET: /Cars/
         public ActionResult Index()
         {
-            return View(db.Cars.ToList());
+            //Setup a variable to hold the Cars data set
+            DbSet<Car> CarsToSearch = db.Cars;
+
+            //Setup some strings to hold the data that might be in the session.
+            //If there is nothing in the session we can still use these variables
+            //as a default value.
+            string filterMake = "";
+            string filterMin = "";
+            string filterMax = "";
+
+            //Define a min and a max for the cylinders
+            int min = 0;
+            int max = 16;
+
+            //Check to see if there is a value in the session, and if there is, assign it to the
+            //variable that we setup to hold the value.
+            if (Session["make"] != null && !String.IsNullOrWhiteSpace((string)Session["make"]))
+            {
+                filterMake = (string)Session["make"];
+            }
+
+            //same as above but for min, and we are parsing the string
+            if (Session["min"] != null && !String.IsNullOrWhiteSpace((string)Session["make"]))
+            {
+                filterMin = (string)Session["min"];
+
+                min = Int32.Parse(filterMin);
+            }
+
+            //same as above but for max, and we are parsing the string
+            if (Session["max"] != null && !String.IsNullOrWhiteSpace((string)Session["make"]))
+            {
+                filterMax = (string)Session["max"];
+
+                max = Int32.Parse(filterMax);
+            }
+
+            //Do the filter on the CarsToSearch Dataset. User the where that we used before
+            //when doing EF work, only this time send in more lambda expressions to narrow it
+            //down further. Since we setup default values for each of the filter parameters,
+            //min, max, and filterMake, we can count on this always running with no errors.
+            IEnumerable<Car> filtered = CarsToSearch.Where(car => car.cylinders >= min &&
+                                                                   car.cylinders <= max &&
+                                                                   car.make.Contains(filterMake));
+              
+            //Convert the database set to a list now that the query work is done on it.
+            IEnumerable<Car> finalFiltered = filtered.ToList();
+
+            //Place the string representation of the values in the session into the 
+            //ViewBag so that they can be retrieved and displayed on the view.
+            ViewBag.filterMake = filterMake;
+            ViewBag.filterMin = filterMin;
+            ViewBag.filterMax = filterMax;
+
+            //return the view with a filtered seletion of cars.
+            return View(finalFiltered);
+
+            //This is what used to be returned before a filter was setup.
+           // return View(db.Cars.ToList());
         }
 
         // GET: /Cars/Details/5
@@ -124,6 +182,27 @@ namespace cis237InClass6.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost, ActionName("Filter")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Filter() 
+        {
+            //Get the form data that as sent out of the Request object.
+            //The string that is used as a key to get the data matches the name property of the form control.
+            String make = Request.Form.Get("make");
+            String min = Request.Form.Get("min");
+            String max = Request.Form.Get("max");
+
+            //store the form data into the session so that it can be retrived later on to filter the data.
+            Session["make"] = make;
+            Session["min"] = min;
+            Session["max"] = max;
+
+           // return Content("Controller Method Is Firing");
+
+            //Redirect the user to the index page. We will do the work of actually filtering the list in the index method. 
+            return RedirectToAction("Index");
         }
     }
 }
